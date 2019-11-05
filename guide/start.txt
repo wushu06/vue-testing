@@ -1,0 +1,77 @@
+npm init -y
+npm install vue-test-utils --save
+npm i vue
+npm install --save-dev @vue/test-utils mocha mocha-webpack
+
+src/component/Counter.js
+test/counter.spec.js
+
+ "scripts": {
+    "test": "mocha-webpack --webpack-config webpack.config.js --require test/setup.js  test/*.spec.js"
+  }
+
+webpack.config.js
+// webpack.config.js
+const nodeExternals = require('webpack-node-externals')
+
+module.exports = {
+    // ...
+    externals: [nodeExternals()]
+}
+
+npm i webpack --save
+
+npm i mocha-webpack@next
+npm i expect --save
+
+npm i vue-template-compiler
+npm i jsdom jsdom-global --save
+
+setup.js
+require('jsdom-global')();
+
+================================================ Counter .js
+export default  {
+    template: `
+        <div>
+        <span class="count" v-text="count"></span>
+        <button id="btn" @click="count++">increment</button>
+</div>
+    `,
+   data(){
+      return {
+          count: 0
+      }
+    }
+}
+================================================ counter.spec.js
+import {mount} from 'vue-test-utils'
+import Counter from '../src/component/Counter'
+import expect from 'expect'
+
+describe('Counter', ()=> {
+    let wrapper;
+    beforeEach(() => {
+        wrapper = mount(Counter);
+    })
+
+    it('default to zero', () => {
+        expect(wrapper.vm.count).toBe(0);
+    })
+
+    it('increment the count', () => {
+        expect(wrapper.vm.count).toBe(0);
+
+        wrapper.find('#btn').trigger('click')
+
+        expect(wrapper.vm.count).toBe(1);
+
+    })
+
+    it('contains current count', () => {
+        expect(wrapper.find('.count').html()).toContain(0);
+        wrapper.find('#btn').trigger('click')
+        expect(wrapper.find('.count').html()).toContain(1);
+
+    })
+})
