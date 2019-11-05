@@ -1,0 +1,16 @@
+update counter.js to counter.vue
+npm i --save vue-loader
+
+add to module export
+  modules: {
+      rules:[
+          {
+              test: /\.vue$/,
+              use: 'vue-loader'
+          }
+      ]
+    },
+
+wrapper.setData({ count: 4 })
+
+it.only // for testing specific test

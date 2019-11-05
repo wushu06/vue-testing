@@ -1,7 +1,10 @@
-// webpack.config.js
-const nodeExternals = require('webpack-node-externals')
-
 module.exports = {
-    // ...
-    externals: [nodeExternals()]
-}
+    module: {
+        rules: [
+            {
+                test: /\.vue$/,
+                use: 'vue-loader'
+            }
+        ]
+    }
+};
