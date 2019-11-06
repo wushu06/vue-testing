@@ -363,13 +363,30 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["a"] = ({
   data() {
     return {
-      count: 0
+      newReminder: '',
+      reminders: []
     };
-  }
+  },
 
+  methods: {
+    add() {
+      this.reminders.push(this.newReminder);
+      this.newReminder = '';
+    },
+
+    remove(reminder) {
+      this.reminders.splice(reminder, 1);
+    }
+
+  }
 });
 
 /***/ }),
@@ -380,53 +397,48 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_test_utils__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_test_utils___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_test_utils__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_component_Counter_vue__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_expect__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_expect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_expect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_expect__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_expect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_expect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_component_Reminders_vue__ = __webpack_require__(10);
 
 
 
 
-describe ('Counter', () => {
+describe ('Reminders', () => {
+
     let wrapper;
 
     beforeEach(() => {
-        wrapper = Object(__WEBPACK_IMPORTED_MODULE_0_vue_test_utils__["mount"])(__WEBPACK_IMPORTED_MODULE_1__src_component_Counter_vue__["a" /* default */]);
+        wrapper = Object(__WEBPACK_IMPORTED_MODULE_0_vue_test_utils__["mount"])(__WEBPACK_IMPORTED_MODULE_2__src_component_Reminders_vue__["a" /* default */]);
     });
 
-    it ('defaults to a count of 0', () => {
-        __WEBPACK_IMPORTED_MODULE_2_expect___default()(wrapper.vm.count).toBe(0);
-    });
+    it ('hides reminders if there are none', () => {
+        __WEBPACK_IMPORTED_MODULE_1_expect___default()(wrapper.contains('.ul')).toBe(false)
+    })
 
-    it ('increments the count when the increment button is clicked', () => {
-        __WEBPACK_IMPORTED_MODULE_2_expect___default()(wrapper.vm.count).toBe(0);
-        __WEBPACK_IMPORTED_MODULE_2_expect___default()(wrapper.find('.decrement').hasStyle('display', 'none')).toBe(true)
-        wrapper.find('.increment').trigger('click');
-        __WEBPACK_IMPORTED_MODULE_2_expect___default()(wrapper.find('.decrement').hasStyle('display', 'none')).toBe(false)
-        __WEBPACK_IMPORTED_MODULE_2_expect___default()(wrapper.vm.count).toBe(1);
-    });
+    it ('can add a reminder', () => {
+        addReminder('Go fish')
+        __WEBPACK_IMPORTED_MODULE_1_expect___default()(wrapper.find('ul').text()).toContain('Go fish')
+    })
 
-    it ('increments the count when the decrement button is clicked', () => {
-        wrapper.setData({ count: 4 })
-        wrapper.find('.decrement').trigger('click')
-        __WEBPACK_IMPORTED_MODULE_2_expect___default()(wrapper.vm.count).toBe(3);
-    });
+    it ('can remove a reminder', () => {
+        addReminder('Go fish')
+        addReminder('go to the store')
 
-    it ('never goes below 0', () => {
-        __WEBPACK_IMPORTED_MODULE_2_expect___default()(wrapper.vm.count).toBe(0);
+        let deleteBtn = wrapper.find('ul > li:first-child .delete')
+        deleteBtn.trigger('click');
+        __WEBPACK_IMPORTED_MODULE_1_expect___default()(wrapper.find('ul').text()).not.toContain('Go fish')
+    })
 
-        wrapper.find('.decrement').trigger('click');
 
-        __WEBPACK_IMPORTED_MODULE_2_expect___default()(wrapper.vm.count).toBe(0);
-    });
+    function addReminder(body) {
+        let newReminder = wrapper.find('.new-reminder')
+        newReminder.element.value = body
+        newReminder.trigger('input')
+        wrapper.find('button').trigger('click')
+    }
 
-    it ('presents the current count', () => {
-        __WEBPACK_IMPORTED_MODULE_2_expect___default()(wrapper.find('.count').html()).toContain(0);
 
-        wrapper.find('button').trigger('click');
-
-        __WEBPACK_IMPORTED_MODULE_2_expect___default()(wrapper.find('.count').html()).toContain(1);
-    });
 
 });
 
@@ -19348,228 +19360,6 @@ if (inBrowser) {
 
 /***/ }),
 /* 9 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Counter_vue__ = __webpack_require__(3);
-/* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_08d5ab41_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Counter_vue__ = __webpack_require__(11);
-var disposed = false
-var normalizeComponent = __webpack_require__(10)
-/* script */
-
-
-/* template */
-
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Counter_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_08d5ab41_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Counter_vue__["a" /* default */],
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "src/component/Counter.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-08d5ab41", Component.options)
-  } else {
-    hotAPI.reload("data-v-08d5ab41", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports) {
-
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file.
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = injectStyles
-  }
-
-  if (hook) {
-    var functional = options.functional
-    var existing = functional
-      ? options.render
-      : options.beforeCreate
-
-    if (!functional) {
-      // inject component registration as beforeCreate hook
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    } else {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return existing(h, context)
-      }
-    }
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("span", {
-      staticClass: "count",
-      domProps: { textContent: _vm._s(_vm.count) }
-    }),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "increment",
-        on: {
-          click: function($event) {
-            _vm.count++
-          }
-        }
-      },
-      [_vm._v("Increment")]
-    ),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.count > 0,
-            expression: "count > 0"
-          }
-        ],
-        staticClass: "decrement",
-        on: {
-          click: function($event) {
-            _vm.count > 0 && _vm.count--
-          }
-        }
-      },
-      [_vm._v("descrement")]
-    )
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-08d5ab41", esExports)
-  }
-}
-
-/***/ }),
-/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {(function (global, factory) {
@@ -33598,6 +33388,237 @@ module.exports = expect;
 })));
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Reminders_vue__ = __webpack_require__(3);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4cd281c6_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Reminders_vue__ = __webpack_require__(12);
+var disposed = false
+var normalizeComponent = __webpack_require__(11)
+/* script */
+
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Reminders_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4cd281c6_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Reminders_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "src/component/Reminders.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4cd281c6", Component.options)
+  } else {
+    hotAPI.reload("data-v-4cd281c6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports) {
+
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file.
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier /* server only */
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = injectStyles
+  }
+
+  if (hook) {
+    var functional = options.functional
+    var existing = functional
+      ? options.render
+      : options.beforeCreate
+
+    if (!functional) {
+      // inject component registration as beforeCreate hook
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    } else {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return existing(h, context)
+      }
+    }
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.newReminder,
+          expression: "newReminder"
+        }
+      ],
+      staticClass: "new-reminder",
+      attrs: { type: "text" },
+      domProps: { value: _vm.newReminder },
+      on: {
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.newReminder = $event.target.value
+        }
+      }
+    }),
+    _vm._v(" "),
+    _c("button", { on: { click: _vm.add } }, [_vm._v("add")]),
+    _vm._v(" "),
+    _vm.reminders
+      ? _c(
+          "ul",
+          _vm._l(_vm.reminders, function(reminder) {
+            return _c("li", [
+              _vm._v("\n            " + _vm._s(reminder) + "\n            "),
+              _c(
+                "button",
+                {
+                  staticClass: "delete",
+                  on: {
+                    click: function($event) {
+                      return _vm.remove(reminder)
+                    }
+                  }
+                },
+                [_vm._v("delete")]
+              )
+            ])
+          }),
+          0
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4cd281c6", esExports)
+  }
+}
 
 /***/ })
 /******/ ]);
